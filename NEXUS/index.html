@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus — 10 min Delivery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-top">
+        <div class="location-box" onclick="openLocation()">
+          <span class="loc-icon">📍</span>
+          <div class="loc-text">
+            <div class="loc-area"><span id="locNameDisplay">Home</span> <span class="chevron">▼</span></div>
+            <div class="loc-full" id="locFullDisplay">Kandivali West, Mumbai - 400067</div>
+          </div>
+        </div>
+        <div class="header-icons">
+          <button class="icon-btn" onclick="openCart()">🛒<span class="badge" id="cartBadge">0</span></button>
+          <button class="icon-btn" onclick="showToast('Profile coming soon')">👤</button>
+        </div>
+      </div>
+      <div class="delivery-strip">
+        <span class="bolt">⚡</span>
+        Delivery in <span class="time">&nbsp;10 minutes</span>
+        <span class="free">FREE with Nexus</span>
+      </div>
+      <div class="search-wrap">
+        <div class="search-bar">
+          <span class="s-icon">🔍</span>
+          <input type="text" placeholder="Search for milk, eggs, bread..." id="searchInput"
+            oninput="handleSearch(this.value)">
+          <span class="mic">🎤</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOCIETY BANNER -->
+    <div class="society-banner" onclick="openSociety()">
+      <span class="sb-icon">🏘️</span>
+      <div class="sb-text">
+        <div class="sb-title" id="sbTitleDisplay">Raheja Tower · 48 families ordering</div>
+        <div class="sb-sub">Combined order saves ₹12 delivery per person today</div>
+      </div>
+      <div class="sb-pill">NEXUS</div>
+    </div>
+
+    <!-- SAVINGS CARDS -->
+    <div class="savings-scroll">
+      <div class="saving-card orange">
+        <span class="sc-emoji">🤝</span>
+        <div class="sc-title">Combined Order<br>Active Now</div>
+        <div class="sc-sub">48 neighbors joined</div>
+      </div>
+      <div class="saving-card purple">
+        <span class="sc-emoji">🎯</span>
+        <div class="sc-title">Your AI Basket<br>Ready</div>
+        <div class="sc-sub">7 items predicted</div>
+      </div>
+      <div class="saving-card teal">
+        <span class="sc-emoji">💰</span>
+        <div class="sc-title">₹486 Saved<br>This Month</div>
+        <div class="sc-sub">vs individual orders</div>
+      </div>
+    </div>
+
+    <!-- OFFER TAG -->
+    <div class="offer-tag">
+      <span class="ot-icon">🎁</span>
+      <span class="ot-text">Nexus group order: <span>₹0 delivery</span> on all orders above ₹99 today</span>
+      <span>→</span>
+    </div>
+
+    <!-- CATEGORY CHIPS -->
+    <div class="cat-scroll" id="catScroll">
+      <div class="cat-chip active" onclick="filterCat('all',this)"><span class="cc-icon">🏪</span><span
+          class="cc-label">All</span></div>
+      <div class="cat-chip" onclick="filterCat('dairy',this)"><span class="cc-icon">🥛</span><span
+          class="cc-label">Dairy</span></div>
+      <div class="cat-chip" onclick="filterCat('fruits',this)"><span class="cc-icon">🍎</span><span
+          class="cc-label">Fruits</span></div>
+      <div class="cat-chip" onclick="filterCat('veg',this)"><span class="cc-icon">🥦</span><span
+          class="cc-label">Veggies</span></div>
+      <div class="cat-chip" onclick="filterCat('snacks',this)"><span class="cc-icon">🍪</span><span
+          class="cc-label">Snacks</span></div>
+      <div class="cat-chip" onclick="filterCat('bread',this)"><span class="cc-icon">🍞</span><span
+          class="cc-label">Bread</span></div>
+      <div class="cat-chip" onclick="filterCat('drinks',this)"><span class="cc-icon">🥤</span><span
+          class="cc-label">Drinks</span></div>
+      <div class="cat-chip" onclick="filterCat('household',this)"><span class="cc-icon">🧴</span><span
+          class="cc-label">Home</span></div>
+    </div>
+
+    <!-- FEATURED PRODUCTS -->
+    <div class="sec-hd">
+      <span class="sh-title">⚡ Super Savers</span>
+      <span class="sh-link" onclick="showToast('Loading all Super Savers...')">See all</span>
+    </div>
+
+    <div class="prod-grid" id="mainGrid"></div>
+
+    <div class="sep"></div>
+
+    <!-- COMBO BANNER -->
+    <div class="combo-banner" onclick="addCombo()">
+      <span class="cb-emojis">🥛🥚🍞</span>
+      <div class="cb-text">
+        <div class="cb-title">Morning Essentials Combo</div>
+        <div class="cb-sub">Milk + Eggs + Bread · Save ₹28</div>
+      </div>
+      <div class="cb-btn">Add Combo →</div>
+    </div>
+
+    <!-- AI BASKET -->
+    <div class="sec-hd">
+      <span class="sh-title">🤖 Your AI Basket</span>
+      <span class="sh-link" onclick="showToast('AI Preferences opened')">Customise</span>
+    </div>
+    <div style="padding:0 16px 8px;">
+      <div
+        style="background:var(--orange-bg);border:1.5px solid rgba(252,128,25,0.3);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--mid);margin-bottom:12px;">
+        <span style="font-weight:800;color:var(--orange);">AI says:</span> Based on your history, you usually order milk
+        on Tuesdays. Running low? 🥛
+      </div>
+    </div>
+    <div class="prod-hscroll" id="aiGrid"></div>
+
+    <div class="sep"></div>
+
+    <!-- MORE PRODUCTS -->
+    <div class="sec-hd">
+      <span class="sh-title">🔥 Popular in Your Society</span>
+      <span class="sh-link" onclick="showToast('Loading popular items...')">See all</span>
+    </div>
+    <div class="prod-grid" id="popularGrid"></div>
+
+  </div><!-- end page -->
+
+  <!-- CART BAR -->
+  <div class="cart-bar hidden" id="cartBar" onclick="openCart()">
+    <span class="cb-count" id="cbCount">0</span>
+    <div class="cb-info">
+      <div class="cb-items" id="cbItems">0 items</div>
+      <div class="cb-saving" id="cbSaving">Delivery: ₹0 🎉</div>
+    </div>
+    <span class="cb-nexus-tag">NEXUS</span>
+    <span class="cb-total" id="cbTotal">₹0</span>
+    <span class="cb-arrow">→</span>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="bn-item active">
+      <span class="bn-icon">🏠</span>
+      <span class="bn-label" style="color:var(--orange);">Home</span>
+    </div>
+    <div class="bn-item">
+      <span class="bn-icon">🔍</span>
+      <span class="bn-label">Search</span>
+    </div>
+    <div class="bn-item">
+      <span class="bn-icon">🏷️</span>
+      <span class="bn-label">Offers</span>
+    </div>
+    <div class="bn-item" onclick="openCart()">
+      <span class="bn-icon">🛒</span>
+      <span class="bn-label">Cart</span>
+    </div>
+    <div class="bn-item">
+      <span class="bn-icon">👤</span>
+      <span class="bn-label">Account</span>
+    </div>
+  </div>
+
+  <!-- CART MODAL -->
+  <div class="modal-overlay" id="cartModal" onclick="closeCartOutside(event)">
+    <div class="cart-sheet" id="cartSheet">
+      <div class="cs-handle"></div>
+      <div class="cs-title">Your Cart 🛒</div>
+      <div class="cs-subtitle" id="csSubtitle">Delivery in 10 min • Raheja Tower</div>
+
+      <div class="nexus-saving-box">
+        <span class="nsb-icon">🏘️</span>
+        <div class="nsb-text">
+          <div class="nsb-title">Nexus Group Order Active!</div>
+          <div class="nsb-sub" id="nsbSub">48 neighbors in your batch — delivery is ₹0</div>
+        </div>
+      </div>
+
+      <div id="cartItemsList"></div>
+
+      <div class="cart-summary" id="cartSummary"></div>
+
+      <button class="btn-checkout" onclick="placeOrder()">Place Order →</button>
+    </div>
+  </div>
+
+  <!-- LOCATION MODAL -->
+  <div class="modal-overlay" id="locationModal" onclick="closeLocationOutside(event)">
+    <div class="cart-sheet">
+      <div class="cs-handle"></div>
+      <div class="cs-title">Select Location</div>
+      <div class="cs-subtitle">Choose your building to join a Nexus group</div>
+
+      <div style="margin-top:12px; display:flex; gap:8px;">
+        <div
+          style="flex:1; display:flex; align-items:center; background:var(--bg); border-radius:10px; padding:10px 12px; border:1px solid var(--border);">
+          <span style="font-size:14px; margin-right:8px;">🔍</span>
+          <input type="text" id="gmapSearch" placeholder="Search address via Google Maps..."
+            style="border:none; background:none; outline:none; font-family:var(--font); font-size:13px; width:100%;">
+        </div>
+        <button onclick="useGPS()"
+          style="background:var(--orange-bg); border:1px solid rgba(252,128,25,0.3); border-radius:10px; padding:0 12px; color:var(--orange); cursor:pointer; font-size:16px;"
+          title="Use Current Location">🎯</button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+        <div onclick="selectLocation('Raheja Tower', 'Kandivali West, Mumbai - 400067', 48)"
+          style="padding:12px; border:1px solid var(--orange); border-radius:12px; background:var(--orange-bg); cursor:pointer;">
+          <div style="font-weight:800; color:var(--dark); display:flex; align-items:center;">Raheja Tower <span
+              style="font-size:10px; background:var(--orange); color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px;">Current</span>
+          </div>
+          <div style="font-size:11px; color:var(--light); margin-top:4px;">Kandivali West, Mumbai - 400067</div>
+          <div style="font-size:11px; color:var(--green); font-weight:700; margin-top:6px;">⚡ 48 families ordering now
+          </div>
+        </div>
+        <div onclick="selectLocation('Oberoi Springs', 'Andheri West, Mumbai - 400053', 24)"
+          style="padding:12px; border:1px solid var(--border); border-radius:12px; cursor:pointer;">
+          <div style="font-weight:700; color:var(--dark);">Oberoi Springs</div>
+          <div style="font-size:11px; color:var(--light); margin-top:4px;">Andheri West, Mumbai - 400053</div>
+          <div style="font-size:11px; color:var(--green); font-weight:700; margin-top:6px;">⚡ 24 families ordering now
+          </div>
+        </div>
+        <div onclick="selectLocation('Lodha Bellissimo', 'Mahalaxmi, Mumbai - 400011', 12)"
+          style="padding:12px; border:1px solid var(--border); border-radius:12px; cursor:pointer;">
+          <div style="font-weight:700; color:var(--dark);">Lodha Bellissimo</div>
+          <div style="font-size:11px; color:var(--light); margin-top:4px;">Mahalaxmi, Mumbai - 400011</div>
+          <div style="font-size:11px; color:var(--green); font-weight:700; margin-top:6px;">⚡ 12 families ordering now
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIETY MODAL -->
+  <div class="modal-overlay" id="societyModal" onclick="closeSocietyOutside(event)">
+    <div class="cart-sheet">
+      <div class="cs-handle"></div>
+      <div class="cs-title">Nexus Group Active 🏘️</div>
+      <div class="cs-subtitle" id="smSubtitleDisplay">Raheja Tower • 48 families ordering</div>
+
+      <div class="nexus-saving-box" style="margin-top:0;">
+        <span class="nsb-icon">🎉</span>
+        <div class="nsb-text">
+          <div class="nsb-title">Delivery fee waived!</div>
+          <div class="nsb-sub">By combining orders, you save ₹12 delivery fee and ₹15 small cart fee today.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:14px; font-weight:800; margin-bottom:12px; color:var(--dark);">Live Activity in your
+          building:</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="font-size:12px; display:flex; align-items:center; gap:8px; color:var(--mid);"><span
+              style="font-size:16px;">👤</span> Someone from Wing A just added milk.</div>
+          <div style="font-size:12px; display:flex; align-items:center; gap:8px; color:var(--mid);"><span
+              style="font-size:16px;">👤</span> Someone from Wing C just checked out.</div>
+          <div style="font-size:12px; display:flex; align-items:center; gap:8px; color:var(--mid);"><span
+              style="font-size:16px;">⏱️</span> Group order closes in 14 mins.</div>
+        </div>
+      </div>
+
+      <button class="btn-checkout" onclick="document.getElementById('societyModal').classList.remove('open')">Got
+        it</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="notify-toast" id="toast"></div>
+
+  <script src="script.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"
+    async defer></script>
+</body>
+
+</html>
