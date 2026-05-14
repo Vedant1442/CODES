@@ -7,25 +7,25 @@ import useGroupCartStore from '../../store/useGroupCartStore';
 const SOURCE_STYLES = {
   blinkit: {
     badge: 'bg-yellow-400 text-yellow-900',
-    addBtn: 'border-yellow-500 text-yellow-700 hover:bg-yellow-50',
+    addBtn: 'border-yellow-500 text-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-500/10 dark:bg-transparent dark:text-yellow-500',
     counterBg: 'bg-yellow-400 text-yellow-900',
     label: 'Blinkit',
   },
   zepto: {
-    badge: 'bg-purple-100 text-purple-700',
-    addBtn: 'border-purple-400 text-purple-700 hover:bg-purple-50',
+    badge: 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-300',
+    addBtn: 'border-purple-400 text-purple-700 hover:bg-purple-50 dark:hover:bg-purple-500/10 dark:bg-transparent dark:text-purple-400',
     counterBg: 'bg-purple-500 text-white',
     label: 'Zepto',
   },
   instamart: {
-    badge: 'bg-orange-100 text-orange-700',
-    addBtn: 'border-orange-400 text-orange-700 hover:bg-orange-50',
+    badge: 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-300',
+    addBtn: 'border-orange-400 text-orange-700 hover:bg-orange-50 dark:hover:bg-orange-500/10 dark:bg-transparent dark:text-orange-400',
     counterBg: 'bg-orange-500 text-white',
     label: 'Instamart',
   },
   bigbasket: {
-    badge: 'bg-green-100 text-green-800',
-    addBtn: 'border-green-500 text-green-700 hover:bg-green-50',
+    badge: 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-300',
+    addBtn: 'border-green-500 text-green-700 hover:bg-green-50 dark:hover:bg-green-500/10 dark:bg-transparent dark:text-green-500',
     counterBg: 'bg-green-600 text-white',
     label: 'BigBasket',
   },
@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
   const hasMRP = product.mrp && product.mrp > product.price && product.mrp !== product.price;
 
   return (
-    <div className="w-[160px] md:w-[180px] rounded-2xl bg-white border border-gray-100 overflow-hidden relative flex flex-col transition hover:shadow-md hover:-translate-y-0.5 duration-200 group cursor-pointer flex-shrink-0">
+    <div className="w-[160px] md:w-[180px] rounded-2xl bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-white/5 overflow-hidden relative flex flex-col transition hover:shadow-md hover:-translate-y-0.5 duration-200 group cursor-pointer flex-shrink-0">
 
       {/* Discount Badge */}
       {hasDiscount && (
@@ -56,7 +56,7 @@ export default function ProductCard({ product }) {
       )}
 
       {/* Image */}
-      <div className="h-[120px] w-full bg-gray-50 flex items-center justify-center p-3 relative overflow-hidden">
+      <div className="h-[120px] w-full bg-gray-50 dark:bg-white/5 flex items-center justify-center p-3 relative overflow-hidden">
         {product.image ? (
           <img
             src={product.image}
@@ -65,7 +65,7 @@ export default function ProductCard({ product }) {
             onError={(e) => { e.target.style.display = 'none'; }}
           />
         ) : (
-          <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl">🛒</div>
+          <div className="w-16 h-16 bg-gray-100 dark:bg-white/10 rounded-xl flex items-center justify-center text-2xl">🛒</div>
         )}
         {/* View link */}
         {product.productUrl && product.productUrl !== '#' && (
@@ -73,7 +73,7 @@ export default function ProductCard({ product }) {
             href={product.productUrl}
             target="_blank"
             rel="noreferrer"
-            className="absolute top-1.5 right-1.5 bg-white/90 border border-gray-200 text-gray-500 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+            className="absolute top-1.5 right-1.5 bg-white/90 dark:bg-[#1a1a1a]/90 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
             onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink className="w-3 h-3" />
@@ -96,7 +96,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Name */}
-        <h3 className="text-xs font-bold text-gray-800 leading-snug mb-1 line-clamp-2 min-h-[30px]">
+        <h3 className="text-xs font-bold text-gray-800 dark:text-gray-100 leading-snug mb-1 line-clamp-2 min-h-[30px]">
           {product.name}
         </h3>
         {product.rating != null && Number.isFinite(product.rating) && (
@@ -116,7 +116,7 @@ export default function ProductCard({ product }) {
         {/* Price + Add Button */}
         <div className="mt-auto flex items-end justify-between gap-1">
           <div className="flex flex-col">
-            <span className="text-sm font-black text-gray-900">
+            <span className="text-sm font-black text-gray-900 dark:text-white">
               {product.price > 0 ? `₹${product.price}` : '—'}
             </span>
             {hasMRP && (
@@ -139,7 +139,7 @@ export default function ProductCard({ product }) {
                     if (inGroup) addGroupItem(product);
                     else addItem(product); 
                   }}
-                  className={`absolute inset-0 w-full h-full border-2 font-black text-xs rounded-xl bg-white transition ${style.addBtn}`}
+                  className={`absolute inset-0 w-full h-full border-2 font-black text-xs rounded-xl bg-white dark:bg-transparent transition ${style.addBtn}`}
                 >
                   ADD
                 </motion.button>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, ShoppingCart, Users, ChevronDown, Wifi, WifiOff, Zap } from 'lucide-react';
+import { Search, ShoppingCart, Users, ChevronDown, Wifi, WifiOff, Zap, Sun, Moon } from 'lucide-react';
 import useCartStore from '../../store/useCartStore';
 import useLocationStore from '../../store/useLocationStore';
 import useSearchStore from '../../store/useSearchStore';
@@ -11,6 +11,24 @@ export default function Navbar() {
   const { openCart, getCartCount, cart } = useCartStore();
   const { locationTitle, locationFull, openLocation } = useLocationStore();
   const { isConnected } = useSearchStore();
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
+
+  const toggleTheme = () => {
+    const newDark = !isDark;
+    setIsDark(newDark);
+    if (newDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   const totalItems = getCartCount();
 
@@ -22,7 +40,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-100 z-50 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 bg-white dark:bg-[#0b0b0b]/80 dark:backdrop-blur-md border-b border-gray-100 dark:border-white/5 z-50 shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-[70px] gap-4 md:gap-8">
 
@@ -33,7 +51,7 @@ export default function Navbar() {
               <Zap className="w-6 h-6 fill-white" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="text-xl font-black text-gray-900 tracking-tighter">NEXUS</span>
+              <span className="text-xl font-black text-gray-900 dark:text-white tracking-tighter">NEXUS</span>
               <span className="text-[10px] font-bold text-[#0c831f] tracking-widest uppercase opacity-70">Blinkit Edition</span>
             </div>
           </Link>  {/* WS status dot */}
@@ -43,9 +61,9 @@ export default function Navbar() {
           {/* Location Picker */}
           <div
             onClick={openLocation}
-            className="hidden md:flex flex-col cursor-pointer max-w-[200px] hover:bg-gray-50 px-3 py-1.5 rounded-xl transition overflow-hidden border border-transparent hover:border-gray-200"
+            className="hidden md:flex flex-col cursor-pointer max-w-[200px] hover:bg-gray-50 dark:hover:bg-white/5 px-3 py-1.5 rounded-xl transition overflow-hidden border border-transparent hover:border-gray-200 dark:hover:border-white/10"
           >
-            <div className="flex items-center gap-1 text-xs font-extrabold text-gray-900 truncate uppercase tracking-wide">
+            <div className="flex items-center gap-1 text-xs font-extrabold text-gray-900 dark:text-gray-100 truncate uppercase tracking-wide">
               <span className="text-primary text-lg">📍</span>
               <span className="truncate">{locationTitle}</span>
               <ChevronDown className="w-3.5 h-3.5 ml-0.5 shrink-0 text-gray-400" />
@@ -55,7 +73,7 @@ export default function Navbar() {
 
           {/* Search */}
           <form onSubmit={handleSearchSubmit} className="flex-1 max-w-2xl">
-            <div className="relative flex items-center w-full h-11 rounded-xl bg-gray-50 border border-gray-200 overflow-hidden focus-within:bg-white focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+            <div className="relative flex items-center w-full h-11 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 overflow-hidden focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition-all">
               <div className="pl-4 pr-2 text-gray-400 flex-shrink-0">
                 <Search className="w-4 h-4" />
               </div>
@@ -65,7 +83,7 @@ export default function Navbar() {
                 placeholder='Search "milk", "chips", "eggs"...'
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-full bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-sm font-medium"
+                className="w-full h-full bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 text-sm font-medium"
               />
               {searchQuery && (
                 <button
@@ -80,6 +98,16 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-3 flex-shrink-0">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 p-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10 transition group"
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              <span className="hidden sm:inline text-xs font-bold uppercase tracking-wider">{isDark ? 'Light' : 'Dark'}</span>
+            </button>
+
             {/* Group Cart */}
             <button
               onClick={() => navigate('/group-cart')}
@@ -95,7 +123,7 @@ export default function Navbar() {
               className={`flex items-center gap-2 px-4 h-[44px] rounded-xl font-bold transition shadow-sm ${
                 totalItems > 0
                   ? 'bg-primary text-white hover:bg-primary-hover'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10'
               }`}
             >
               <ShoppingCart className="w-4 h-4" />
