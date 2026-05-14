@@ -1,0 +1,17 @@
+node_modules/
+.env
+*.whtt
+backblue.gif
+fade.gif
+repos_temp/
+nexus-web-backup-v1/
+Zepto-Clone-As-Project/
+nexus scarapping/
+nexus-web/
+QuickCom/
+GroupCart/
+NEXUS/GroupCart/
+NEXUS/server/node_modules/
+NEXUS-V2/frontend/node_modules/
+NEXUS-V2/backend/node_modules/
+NEXUS-V2/Nexus v2/

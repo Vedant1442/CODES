@@ -1,295 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexus — 10 min Delivery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nexus Delivery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places" defer></script>
 </head>
-
 <body>
-
-  <div class="page">
-
-    <!-- HEADER -->
-    <div class="header">
-      <div class="header-top">
-        <div class="location-box" onclick="openLocation()">
-          <span class="loc-icon">📍</span>
-          <div class="loc-text">
-            <div class="loc-area"><span id="locNameDisplay">Home</span> <span class="chevron">▼</span></div>
-            <div class="loc-full" id="locFullDisplay">Kandivali West, Mumbai - 400067</div>
-          </div>
-        </div>
-        <div class="header-icons">
-          <button class="icon-btn" onclick="openCart()">🛒<span class="badge" id="cartBadge">0</span></button>
-          <button class="icon-btn" onclick="showToast('Profile coming soon')">👤</button>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div class="location-box" onclick="openLocation()">
+        <span class="loc-icon">📍</span>
+        <div class="loc-text">
+          <div class="loc-area"><span id="locNameDisplay">Delivery Location</span> <span class="chevron">▼</span></div>
+          <div class="loc-full" id="locFullDisplay">Select your address</div>
         </div>
       </div>
-      <div class="delivery-strip">
-        <span class="bolt">⚡</span>
-        Delivery in <span class="time">&nbsp;10 minutes</span>
-        <span class="free">FREE with Nexus</span>
-      </div>
-      <div class="search-wrap">
-        <div class="search-bar">
-          <span class="s-icon">🔍</span>
-          <input type="text" placeholder="Search for milk, eggs, bread..." id="searchInput"
-            oninput="handleSearch(this.value)">
-          <span class="mic">🎤</span>
-        </div>
+      <div class="header-icons" style="display:flex; gap:10px; align-items:center;">
+        <button class="icon-btn" onclick="openGroupBasket()" id="groupBasketBtn" style="border: 1px solid var(--green); color: var(--green); padding: 4px 10px; border-radius: 8px; font-weight: bold; background: #e8f5ea; font-size: 12px; display: flex; align-items: center; gap: 5px;">
+          <span style="font-size:14px;">👥</span> Group Cart
+        </button>
+        <button class="icon-btn" onclick="openAuth()"><span class="auth-icon" id="userAvatar">👤</span></button>
       </div>
     </div>
-
-    <!-- SOCIETY BANNER -->
-    <div class="society-banner" onclick="openSociety()">
-      <span class="sb-icon">🏘️</span>
-      <div class="sb-text">
-        <div class="sb-title" id="sbTitleDisplay">Raheja Tower · 48 families ordering</div>
-        <div class="sb-sub">Combined order saves ₹12 delivery per person today</div>
-      </div>
-      <div class="sb-pill">NEXUS</div>
-    </div>
-
-    <!-- SAVINGS CARDS -->
-    <div class="savings-scroll">
-      <div class="saving-card orange">
-        <span class="sc-emoji">🤝</span>
-        <div class="sc-title">Combined Order<br>Active Now</div>
-        <div class="sc-sub">48 neighbors joined</div>
-      </div>
-      <div class="saving-card purple">
-        <span class="sc-emoji">🎯</span>
-        <div class="sc-title">Your AI Basket<br>Ready</div>
-        <div class="sc-sub">7 items predicted</div>
-      </div>
-      <div class="saving-card teal">
-        <span class="sc-emoji">💰</span>
-        <div class="sc-title">₹486 Saved<br>This Month</div>
-        <div class="sc-sub">vs individual orders</div>
+    <div class="search-wrap">
+      <div class="search-bar">
+        <span class="s-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search across Blinkit, Zepto, Instamart..." onkeyup="handleSearch(this.value)">
+        <span class="mic">🎤</span>
       </div>
     </div>
+  </header>
 
-    <!-- OFFER TAG -->
-    <div class="offer-tag">
-      <span class="ot-icon">🎁</span>
-      <span class="ot-text">Nexus group order: <span>₹0 delivery</span> on all orders above ₹99 today</span>
-      <span>→</span>
+  <!-- MAIN VIEWS -->
+  <main id="view-home" class="view-section active">
+    <!-- Categories Scroll -->
+    <div class="cat-scroll" id="catScrollContainer">
+      <div class="cat-chip active" onclick="filterCat('all', this)"><img src="https://cdn-icons-png.flaticon.com/512/3768/3768076.png" class="cc-icon"><span class="cc-label">All</span></div>
+      <div class="cat-chip" onclick="filterCat('dairy', this)"><img src="https://cdn-icons-png.flaticon.com/512/3014/3014502.png" class="cc-icon"><span class="cc-label">Dairy & Bread</span></div>
+      <div class="cat-chip" onclick="filterCat('fruits', this)"><img src="https://cdn-icons-png.flaticon.com/512/1652/1652077.png" class="cc-icon"><span class="cc-label">Fruits & Veg</span></div>
+      <div class="cat-chip" onclick="filterCat('snacks', this)"><img src="https://cdn-icons-png.flaticon.com/512/2515/2515183.png" class="cc-icon"><span class="cc-label">Snacks</span></div>
+      <div class="cat-chip" onclick="filterCat('drinks', this)"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050114.png" class="cc-icon"><span class="cc-label">Drinks</span></div>
     </div>
 
-    <!-- CATEGORY CHIPS -->
-    <div class="cat-scroll" id="catScroll">
-      <div class="cat-chip active" onclick="filterCat('all',this)"><span class="cc-icon">🏪</span><span
-          class="cc-label">All</span></div>
-      <div class="cat-chip" onclick="filterCat('dairy',this)"><span class="cc-icon">🥛</span><span
-          class="cc-label">Dairy</span></div>
-      <div class="cat-chip" onclick="filterCat('fruits',this)"><span class="cc-icon">🍎</span><span
-          class="cc-label">Fruits</span></div>
-      <div class="cat-chip" onclick="filterCat('veg',this)"><span class="cc-icon">🥦</span><span
-          class="cc-label">Veggies</span></div>
-      <div class="cat-chip" onclick="filterCat('snacks',this)"><span class="cc-icon">🍪</span><span
-          class="cc-label">Snacks</span></div>
-      <div class="cat-chip" onclick="filterCat('bread',this)"><span class="cc-icon">🍞</span><span
-          class="cc-label">Bread</span></div>
-      <div class="cat-chip" onclick="filterCat('drinks',this)"><span class="cc-icon">🥤</span><span
-          class="cc-label">Drinks</span></div>
-      <div class="cat-chip" onclick="filterCat('household',this)"><span class="cc-icon">🧴</span><span
-          class="cc-label">Home</span></div>
-    </div>
-
-    <!-- FEATURED PRODUCTS -->
-    <div class="sec-hd">
-      <span class="sh-title">⚡ Super Savers</span>
-      <span class="sh-link" onclick="showToast('Loading all Super Savers...')">See all</span>
-    </div>
-
+    <!-- Product Grid -->
+    <div class="sec-hd"><div class="sh-title">Aggregated Inventory</div></div>
     <div class="prod-grid" id="mainGrid"></div>
+  </main>
 
-    <div class="sep"></div>
+  <!-- CATEGORIES VIEW -->
+  <main id="view-categories" class="view-section hidden">
+    <div class="sec-hd"><div class="sh-title">All Categories</div></div>
+    <div class="prod-grid" style="grid-template-columns: repeat(2, 1fr);" id="fullCategoriesGrid">
+      <div class="cat-card">Dairy, Bread & Eggs</div>
+      <div class="cat-card">Fruits & Vegetables</div>
+      <div class="cat-card">Cold Drinks & Juices</div>
+      <div class="cat-card">Snacks & Munchies</div>
+      <div class="cat-card">Sweet Tooth</div>
+      <div class="cat-card">Meat & Seafood</div>
+    </div>
+  </main>
 
-    <!-- COMBO BANNER -->
-    <div class="combo-banner" onclick="addCombo()">
-      <span class="cb-emojis">🥛🥚🍞</span>
-      <div class="cb-text">
-        <div class="cb-title">Morning Essentials Combo</div>
-        <div class="cb-sub">Milk + Eggs + Bread · Save ₹28</div>
+  <!-- ORDERS VIEW -->
+  <main id="view-orders" class="view-section hidden">
+    <div class="sec-hd"><div class="sh-title">Your Orders</div></div>
+    <div id="ordersList" style="padding: 16px; text-align: center; color: var(--light); font-size: 14px;">
+      <div style="font-size: 40px; margin-bottom: 10px;">📦</div>
+      No past orders found.
+    </div>
+  </main>
+
+  <!-- PROFILE VIEW -->
+  <main id="view-profile" class="view-section hidden">
+    <div class="profile-header">
+      <div class="ph-avatar">👤</div>
+      <div class="ph-info">
+        <h2 id="profileName">Guest User</h2>
+        <p id="profilePhone">+91 XXXXX XXXXX</p>
       </div>
-      <div class="cb-btn">Add Combo →</div>
     </div>
-
-    <!-- AI BASKET -->
-    <div class="sec-hd">
-      <span class="sh-title">🤖 Your AI Basket</span>
-      <span class="sh-link" onclick="showToast('AI Preferences opened')">Customise</span>
-    </div>
-    <div style="padding:0 16px 8px;">
-      <div
-        style="background:var(--orange-bg);border:1.5px solid rgba(252,128,25,0.3);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--mid);margin-bottom:12px;">
-        <span style="font-weight:800;color:var(--orange);">AI says:</span> Based on your history, you usually order milk
-        on Tuesdays. Running low? 🥛
+    <div style="padding: 16px;">
+      <button class="btn-primary" id="loginBtnTrigger" onclick="openAuth()">Log In / Sign Up</button>
+      <div class="profile-links" style="margin-top: 20px;">
+        <div class="pl-item">Addresses</div>
+        <div class="pl-item">Payment Methods</div>
+        <div class="pl-item">Customer Support</div>
       </div>
     </div>
-    <div class="prod-hscroll" id="aiGrid"></div>
-
-    <div class="sep"></div>
-
-    <!-- MORE PRODUCTS -->
-    <div class="sec-hd">
-      <span class="sh-title">🔥 Popular in Your Society</span>
-      <span class="sh-link" onclick="showToast('Loading popular items...')">See all</span>
-    </div>
-    <div class="prod-grid" id="popularGrid"></div>
-
-  </div><!-- end page -->
+  </main>
 
   <!-- CART BAR -->
   <div class="cart-bar hidden" id="cartBar" onclick="openCart()">
-    <span class="cb-count" id="cbCount">0</span>
+    <div class="cb-count" id="cbCount">0</div>
     <div class="cb-info">
       <div class="cb-items" id="cbItems">0 items</div>
-      <div class="cb-saving" id="cbSaving">Delivery: ₹0 🎉</div>
+      <div class="cb-total" id="cbTotal">₹0</div>
     </div>
-    <span class="cb-nexus-tag">NEXUS</span>
-    <span class="cb-total" id="cbTotal">₹0</span>
-    <span class="cb-arrow">→</span>
+    <div class="cb-arrow">View Cart ➔</div>
   </div>
 
   <!-- BOTTOM NAV -->
-  <div class="bottom-nav">
-    <div class="bn-item active">
-      <span class="bn-icon">🏠</span>
-      <span class="bn-label" style="color:var(--orange);">Home</span>
+  <nav class="bottom-nav">
+    <div class="bn-item active" onclick="switchView('home', this)">
+      <span class="bn-icon">🏠</span><span class="bn-label">Home</span>
     </div>
-    <div class="bn-item">
-      <span class="bn-icon">🔍</span>
-      <span class="bn-label">Search</span>
+    <div class="bn-item" onclick="switchView('categories', this)">
+      <span class="bn-icon">🗂️</span><span class="bn-label">Categories</span>
     </div>
-    <div class="bn-item">
-      <span class="bn-icon">🏷️</span>
-      <span class="bn-label">Offers</span>
+    <div class="bn-item" onclick="switchView('orders', this)">
+      <span class="bn-icon">🧾</span><span class="bn-label">Orders</span>
     </div>
-    <div class="bn-item" onclick="openCart()">
-      <span class="bn-icon">🛒</span>
-      <span class="bn-label">Cart</span>
+    <div class="bn-item" onclick="switchView('profile', this)">
+      <span class="bn-icon">👤</span><span class="bn-label">Profile</span>
     </div>
-    <div class="bn-item">
-      <span class="bn-icon">👤</span>
-      <span class="bn-label">Account</span>
-    </div>
-  </div>
+  </nav>
 
-  <!-- CART MODAL -->
-  <div class="modal-overlay" id="cartModal" onclick="closeCartOutside(event)">
-    <div class="cart-sheet" id="cartSheet">
+  <!-- MODALS -->
+  <!-- Cart Modal -->
+  <div class="modal-overlay" id="cartModal" onclick="closeModalOutside(event, 'cartModal')">
+    <div class="cart-sheet bottom-sheet">
       <div class="cs-handle"></div>
-      <div class="cs-title">Your Cart 🛒</div>
-      <div class="cs-subtitle" id="csSubtitle">Delivery in 10 min • Raheja Tower</div>
-
-      <div class="nexus-saving-box">
-        <span class="nsb-icon">🏘️</span>
-        <div class="nsb-text">
-          <div class="nsb-title">Nexus Group Order Active!</div>
-          <div class="nsb-sub" id="nsbSub">48 neighbors in your batch — delivery is ₹0</div>
-        </div>
-      </div>
-
+      <div class="cs-title">Your Cart</div>
       <div id="cartItemsList"></div>
-
-      <div class="cart-summary" id="cartSummary"></div>
-
-      <button class="btn-checkout" onclick="placeOrder()">Place Order →</button>
+      <div id="cartSummary"></div>
+      <button class="btn-primary" onclick="placeOrder()">Proceed to Pay</button>
     </div>
   </div>
 
-  <!-- LOCATION MODAL -->
-  <div class="modal-overlay" id="locationModal" onclick="closeLocationOutside(event)">
-    <div class="cart-sheet">
+  <!-- ENHANCED Location Modal -->
+  <div class="modal-overlay" id="locationModal" onclick="closeModalOutside(event, 'locationModal')">
+    <div class="cart-sheet bottom-sheet location-sheet" style="height: 80vh;">
       <div class="cs-handle"></div>
-      <div class="cs-title">Select Location</div>
-      <div class="cs-subtitle">Choose your building to join a Nexus group</div>
-
-      <div style="margin-top:12px; display:flex; gap:8px;">
-        <div
-          style="flex:1; display:flex; align-items:center; background:var(--bg); border-radius:10px; padding:10px 12px; border:1px solid var(--border);">
-          <span style="font-size:14px; margin-right:8px;">🔍</span>
-          <input type="text" id="gmapSearch" placeholder="Search address via Google Maps..."
-            style="border:none; background:none; outline:none; font-family:var(--font); font-size:13px; width:100%;">
-        </div>
-        <button onclick="useGPS()"
-          style="background:var(--orange-bg); border:1px solid rgba(252,128,25,0.3); border-radius:10px; padding:0 12px; color:var(--orange); cursor:pointer; font-size:16px;"
-          title="Use Current Location">🎯</button>
+      <div class="cs-title">Select Delivery Location</div>
+      <div class="search-bar" style="margin-top: 10px;">
+        <span class="s-icon">🔍</span>
+        <input type="text" id="gmapSearch" placeholder="Search for your area, apartment or street">
       </div>
-
-      <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-        <div onclick="selectLocation('Raheja Tower', 'Kandivali West, Mumbai - 400067', 48)"
-          style="padding:12px; border:1px solid var(--orange); border-radius:12px; background:var(--orange-bg); cursor:pointer;">
-          <div style="font-weight:800; color:var(--dark); display:flex; align-items:center;">Raheja Tower <span
-              style="font-size:10px; background:var(--orange); color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px;">Current</span>
-          </div>
-          <div style="font-size:11px; color:var(--light); margin-top:4px;">Kandivali West, Mumbai - 400067</div>
-          <div style="font-size:11px; color:var(--green); font-weight:700; margin-top:6px;">⚡ 48 families ordering now
+      <div class="detect-loc" onclick="useGPS()">
+        <span class="dl-icon">🎯</span>
+        <div class="dl-text">
+          <div class="dl-title">Detect current location</div>
+          <div class="dl-sub">Using GPS & Device Location</div>
+        </div>
+        <span class="dl-arrow">➔</span>
+      </div>
+      
+      <div class="saved-locs-wrap">
+        <h3 style="font-size: 13px; color: var(--light); margin-bottom: 12px; margin-top: 20px;">SAVED ADDRESSES</h3>
+        <div class="saved-loc-item" onclick="selectLocation('Home', 'A-12, Green Park, New Delhi')">
+          <span class="sl-icon">🏠</span>
+          <div class="sl-info">
+            <div class="sl-title">Home</div>
+            <div class="sl-full">A-12, Green Park, New Delhi</div>
           </div>
         </div>
-        <div onclick="selectLocation('Oberoi Springs', 'Andheri West, Mumbai - 400053', 24)"
-          style="padding:12px; border:1px solid var(--border); border-radius:12px; cursor:pointer;">
-          <div style="font-weight:700; color:var(--dark);">Oberoi Springs</div>
-          <div style="font-size:11px; color:var(--light); margin-top:4px;">Andheri West, Mumbai - 400053</div>
-          <div style="font-size:11px; color:var(--green); font-weight:700; margin-top:6px;">⚡ 24 families ordering now
-          </div>
-        </div>
-        <div onclick="selectLocation('Lodha Bellissimo', 'Mahalaxmi, Mumbai - 400011', 12)"
-          style="padding:12px; border:1px solid var(--border); border-radius:12px; cursor:pointer;">
-          <div style="font-weight:700; color:var(--dark);">Lodha Bellissimo</div>
-          <div style="font-size:11px; color:var(--light); margin-top:4px;">Mahalaxmi, Mumbai - 400011</div>
-          <div style="font-size:11px; color:var(--green); font-weight:700; margin-top:6px;">⚡ 12 families ordering now
+        <div class="saved-loc-item" onclick="selectLocation('Office', 'Cyber Hub, Gurugram')">
+          <span class="sl-icon">💼</span>
+          <div class="sl-info">
+            <div class="sl-title">Office</div>
+            <div class="sl-full">Cyber Hub, DLF Phase 2, Gurugram</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SOCIETY MODAL -->
-  <div class="modal-overlay" id="societyModal" onclick="closeSocietyOutside(event)">
-    <div class="cart-sheet">
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal" onclick="closeModalOutside(event, 'authModal')">
+    <div class="cart-sheet bottom-sheet auth-sheet">
       <div class="cs-handle"></div>
-      <div class="cs-title">Nexus Group Active 🏘️</div>
-      <div class="cs-subtitle" id="smSubtitleDisplay">Raheja Tower • 48 families ordering</div>
+      <div class="cs-title" style="font-size: 20px;">Log in or Sign up</div>
+      <p style="font-size: 13px; color: var(--light); margin-bottom: 24px; margin-top: 4px;">Get updates on your order and saved addresses.</p>
+      
+      <div class="auth-input-wrap">
+        <span class="auth-prefix">+91</span>
+        <input type="tel" id="phoneInput" placeholder="Enter mobile number" class="auth-input" maxlength="10">
+      </div>
+      
+      <button class="btn-primary" onclick="handleLogin()" style="margin-top: 20px;">Continue</button>
+      <p style="font-size: 11px; color: var(--light); text-align: center; margin-top: 16px;">
+        By continuing, you agree to our Terms of Service & Privacy Policy
+      </p>
+    </div>
+  </div>
 
-      <div class="nexus-saving-box" style="margin-top:0;">
-        <span class="nsb-icon">🎉</span>
-        <div class="nsb-text">
-          <div class="nsb-title">Delivery fee waived!</div>
-          <div class="nsb-sub">By combining orders, you save ₹12 delivery fee and ₹15 small cart fee today.</div>
+  <!-- BLINKIT-STYLE Product Detail Modal -->
+  <div class="modal-overlay" id="productModal" onclick="closeModalOutside(event, 'productModal')">
+    <div class="cart-sheet bottom-sheet product-sheet" id="productDetailContent" style="height: 85vh; padding: 0;">
+      <!-- Populated dynamically -->
+    </div>
+  </div>
+
+  <!-- GROUP BASKET MODAL -->
+  <div class="modal-overlay" id="groupBasketModal" onclick="closeModalOutside(event, 'groupBasketModal')">
+    <div class="modal-content" style="max-width: 350px; text-align:center;">
+      <div class="pd-close" onclick="closeAllModals()">✕</div>
+      <h2 style="margin-bottom: 5px;">Group Basket</h2>
+      <p style="font-size: 13px; color: var(--light); margin-bottom: 20px;">Shop together & split delivery costs</p>
+      
+      <div id="gbCreateJoinSection">
+        <input type="text" id="gbNameInput" class="auth-input" placeholder="Your Name (e.g. Vedant)" style="margin-bottom: 10px;">
+        <input type="text" id="gbCodeInput" class="auth-input" placeholder="Invite Code (optional to join)" style="margin-bottom: 15px; font-family: monospace;">
+        
+        <button class="auth-btn" style="background:var(--green); margin-bottom: 10px;" onclick="handleCreateBasket()">Create New Basket</button>
+        <button class="auth-btn" style="background:#fff; border: 1px solid var(--border); color: var(--dark);" onclick="handleJoinBasket()">Join Existing Basket</button>
+      </div>
+
+      <div id="gbActiveSection" style="display: none;">
+        <div style="background: #e8f5ea; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+          <div style="font-size: 12px; font-weight: bold; color: var(--green); margin-bottom: 5px;">BASKET ACTIVE</div>
+          <div style="font-size: 24px; font-family: monospace; font-weight: 900; letter-spacing: 4px; color: var(--dark);" id="gbActiveCode">XXXXXX</div>
+        </div>
+        <p style="font-size: 12px; color: var(--light); margin-bottom: 15px;">Share this code with friends to let them add items.</p>
+        <div id="gbMembersList" style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-bottom: 20px;"></div>
+        <button class="auth-btn" style="background:#ff3333;" onclick="leaveBasket()">Leave Basket</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE / ORDERS MODAL -->
+  <div class="modal-overlay" id="profileModal" onclick="closeModalOutside(event, 'profileModal')">
+    <div class="modal-content" style="max-width: 400px; padding: 20px;">
+      <div class="pd-close" onclick="closeAllModals()">✕</div>
+      <div style="display:flex; align-items:center; gap:15px; margin-bottom: 20px;">
+        <div style="width:50px; height:50px; background:var(--green); border-radius:12px; color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:bold;" id="profileInitials">V</div>
+        <div>
+          <h2 style="margin:0; font-size:18px;" id="profileNameDisplay">Vedant</h2>
+          <p style="margin:0; font-size:12px; color:var(--light);" id="profilePhoneDisplay">+91 9999999999</p>
+        </div>
+      </div>
+      
+      <h3 style="font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 5px;">My Orders</h3>
+      <div id="ordersList" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+        <!-- Dynamically populated -->
+        <p style="font-size:12px; color:var(--light); text-align:center; margin-top:20px;">No recent orders</p>
+      </div>
+
+      <button class="auth-btn" style="background:#fff; border:1px solid #ff3333; color:#ff3333;" onclick="handleLogout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal-overlay" id="checkoutModal" onclick="closeModalOutside(event, 'checkoutModal')">
+    <div class="cart-sheet bottom-sheet checkout-sheet" style="height: 80vh; display:flex; flex-direction:column;">
+      <div class="cart-header">
+        <h2 style="font-size: 18px; margin:0;">Checkout</h2>
+        <div class="close-btn" onclick="closeAllModals()">✕</div>
+      </div>
+      
+      <div style="padding: 15px; flex:1; overflow-y:auto;">
+        <h3 style="font-size: 14px; margin-bottom: 10px;">Delivery Address</h3>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px;">
+          <input type="text" id="checkoutAddress" class="auth-input" placeholder="House No, Building, Street" style="margin-bottom:10px;">
+          <p style="font-size: 11px; color: var(--light); margin:0;" id="checkoutCity">Mumbai, Maharashtra</p>
+        </div>
+
+        <h3 style="font-size: 14px; margin-bottom: 10px;">Payment Method</h3>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom: 20px;" id="paymentMethods">
+          <label style="display:flex; align-items:center; gap:10px; background:#fff; padding:15px; border-radius:12px; border:1px solid var(--green); cursor:pointer;">
+            <input type="radio" name="payMethod" value="UPI" checked>
+            <span style="font-weight:bold; font-size:14px;">UPI (GPay, PhonePe)</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:10px; background:#fff; padding:15px; border-radius:12px; border:1px solid var(--border); cursor:pointer;" onclick="this.parentNode.querySelectorAll('label').forEach(l=>l.style.borderColor='var(--border)'); this.style.borderColor='var(--green)';">
+            <input type="radio" name="payMethod" value="Card">
+            <span style="font-weight:bold; font-size:14px;">Credit / Debit Card</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:10px; background:#fff; padding:15px; border-radius:12px; border:1px solid var(--border); cursor:pointer;" onclick="this.parentNode.querySelectorAll('label').forEach(l=>l.style.borderColor='var(--border)'); this.style.borderColor='var(--green)';">
+            <input type="radio" name="payMethod" value="COD">
+            <span style="font-weight:bold; font-size:14px;">Cash on Delivery</span>
+          </label>
         </div>
       </div>
 
-      <div style="margin-top:16px;">
-        <div style="font-size:14px; font-weight:800; margin-bottom:12px; color:var(--dark);">Live Activity in your
-          building:</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div style="font-size:12px; display:flex; align-items:center; gap:8px; color:var(--mid);"><span
-              style="font-size:16px;">👤</span> Someone from Wing A just added milk.</div>
-          <div style="font-size:12px; display:flex; align-items:center; gap:8px; color:var(--mid);"><span
-              style="font-size:16px;">👤</span> Someone from Wing C just checked out.</div>
-          <div style="font-size:12px; display:flex; align-items:center; gap:8px; color:var(--mid);"><span
-              style="font-size:16px;">⏱️</span> Group order closes in 14 mins.</div>
-        </div>
+      <div style="padding: 15px; background: #fff; border-top: 1px solid var(--border);">
+        <button class="checkout-btn" style="width:100%; border-radius:12px;" onclick="processPayment()">
+          Pay <span id="checkoutTotalDisplay">₹0</span>
+        </button>
       </div>
-
-      <button class="btn-checkout" onclick="document.getElementById('societyModal').classList.remove('open')">Got
-        it</button>
     </div>
   </div>
 
   <!-- TOAST -->
-  <div class="notify-toast" id="toast"></div>
-
+  <div class="toast" id="toast">Added to cart 🛒</div>
+  
   <script src="script.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"
-    async defer></script>
 </body>
-
 </html>

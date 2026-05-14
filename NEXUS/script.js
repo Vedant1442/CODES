@@ -1,123 +1,182 @@
-// ── DATA ──
-const allProducts = [
-  // dairy
-  {id:1,cat:'dairy',emoji:'🥛',name:'Amul Full Cream Milk',weight:'1 L',price:68,mrp:72,discount:6,nexus:true,src:'Zepto'},
-  {id:2,cat:'dairy',emoji:'🧀',name:'Amul Processed Cheese',weight:'200 g',price:105,mrp:120,discount:13,nexus:false,src:'Blinkit'},
-  {id:3,cat:'dairy',emoji:'🥚',name:'Farm Fresh Eggs',weight:'12 pcs',price:89,mrp:96,discount:7,nexus:true,src:'Instamart'},
-  {id:4,cat:'dairy',emoji:'🧈',name:'Amul Butter',weight:'100 g',price:55,mrp:58,discount:5,nexus:false,src:'BigBasket'},
-  {id:5,cat:'dairy',emoji:'🍦',name:'Amul Masti Dahi',weight:'400 g',price:52,mrp:56,discount:7,nexus:true,src:'Zepto'},
-  {id:6,cat:'dairy',emoji:'🥛',name:'Mother Dairy Toned Milk',weight:'500 ml',price:30,mrp:32,discount:6,nexus:false,src:'Instamart'},
-  // fruits
-  {id:7,cat:'fruits',emoji:'🍌',name:'Cavendish Bananas',weight:'6 pcs',price:45,mrp:52,discount:13,nexus:true,src:'Blinkit'},
-  {id:8,cat:'fruits',emoji:'🍎',name:'Shimla Apple',weight:'4 pcs ~500g',price:89,mrp:99,discount:10,nexus:false,src:'BigBasket'},
-  {id:9,cat:'fruits',emoji:'🍊',name:'Nagpur Orange',weight:'4 pcs',price:55,mrp:60,discount:8,nexus:true,src:'Zepto'},
-  // veg
-  {id:10,cat:'veg',emoji:'🍅',name:'Tomatoes',weight:'500 g',price:29,mrp:35,discount:17,nexus:true,src:'Instamart'},
-  {id:11,cat:'veg',emoji:'🥦',name:'Broccoli',weight:'300 g',price:45,mrp:55,discount:18,nexus:false,src:'Blinkit'},
-  {id:12,cat:'veg',emoji:'🧅',name:'Onions',weight:'1 kg',price:38,mrp:45,discount:16,nexus:true,src:'BigBasket'},
-  // snacks
-  {id:13,cat:'snacks',emoji:'🍪',name:"Britannia Marie Gold",weight:'250 g',price:30,mrp:32,discount:6,nexus:false,src:'Zepto'},
-  {id:14,cat:'snacks',emoji:'🥜',name:'Haldiram Aloo Bhujia',weight:'200 g',price:65,mrp:72,discount:10,nexus:true,src:'Instamart'},
-  {id:15,cat:'snacks',emoji:'🍿',name:'ACT II Popcorn',weight:'70 g',price:28,mrp:30,discount:7,nexus:false,src:'Blinkit'},
-  // bread
-  {id:16,cat:'bread',emoji:'🍞',name:'Harvest Gold Bread',weight:'400 g',price:42,mrp:45,discount:7,nexus:true,src:'Zepto'},
-  {id:17,cat:'bread',emoji:'🫓',name:'English Muffins',weight:'6 pcs',price:89,mrp:99,discount:10,nexus:false,src:'BigBasket'},
-  // drinks
-  {id:18,cat:'drinks',emoji:'🥤',name:'Paper Boat Aamras',weight:'250 ml',price:30,mrp:35,discount:14,nexus:false,src:'Instamart'},
-  {id:19,cat:'drinks',emoji:'🧃',name:'Real Fruit Juice',weight:'1 L',price:95,mrp:105,discount:10,nexus:true,src:'Blinkit'},
-  {id:20,cat:'drinks',emoji:'☕',name:'Bru Instant Coffee',weight:'50 g',price:78,mrp:85,discount:8,nexus:false,src:'Zepto'},
-  // household
-  {id:21,cat:'household',emoji:'🧴',name:'Vim Dishwash Liquid',weight:'500 ml',price:89,mrp:99,discount:10,nexus:true,src:'Instamart'},
-  {id:22,cat:'household',emoji:'🧹',name:'Lizol Floor Cleaner',weight:'500 ml',price:115,mrp:125,discount:8,nexus:false,src:'BigBasket'},
-  {id:23,cat:'household',emoji:'🪥',name:'Colgate MaxFresh',weight:'150 g',price:65,mrp:75,discount:13,nexus:true,src:'Blinkit'},
+// ── DATA: REALISTIC CATALOG ──
+let allProducts = [];
+const mockProducts = [
+  { _id: 'm1', cat: 'dairy', source: 'Blinkit', name: 'Amul Taaza Toned Milk', quantity: '1 L', price: 68, mrp: 72, discount: 5, image: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/assets/products/sliding_images/jpeg/1c0db977-31ab-4d8e-abf3-d42e4a4b4632.jpg', url: 'https://blinkit.com/prn/amul-taaza-toned-milk/prid/14588' },
+  { _id: 'm2', cat: 'dairy', source: 'Instamart', name: 'Farm Fresh White Eggs', quantity: '12 pcs', price: 89, mrp: 96, discount: 7, image: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/assets/products/sliding_images/jpeg/09f58356-ccae-48f6-be11-bb035c678a10.jpg', url: 'https://www.swiggy.com/instamart/item/farm-fresh-white-eggs-12-pcs' },
+  { _id: 'm3', cat: 'fruits', source: 'Zepto', name: 'Harvest Gold White Bread', quantity: '400 g', price: 40, mrp: 40, discount: 0, image: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/assets/products/sliding_images/jpeg/5ee4441d-9109-48fa-9343-f5ce82b905a6.jpg', url: 'https://www.zeptonow.com/pn/harvest-gold-white-bread/123' },
+  { _id: 'm4', cat: 'fruits', source: 'BigBasket', name: 'Robusta Bananas', quantity: '500 g', price: 45, mrp: 55, discount: 18, image: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/assets/products/sliding_images/jpeg/443c5b5d-9fcb-4d40-ba7a-9774de90efb2.jpg', url: 'https://www.bigbasket.com/pd/10000031/fresho-banana-robusta-500-g/' }
 ];
-
-const aiProducts = [1,3,16,7,10,13].map(id => allProducts.find(p=>p.id===id));
-const popularIds = [3,7,10,1,14,19];
-const popularProducts = popularIds.map(id => allProducts.find(p=>p.id===id));
 
 let cart = {}; // id -> qty
 let currentCat = 'all';
 
+// ── BACKEND SYNC LOGIC ──
+const API_URL = '/api';
+let myName = 'Guest';
+let activeBasketCode = null;
+let members = []; 
+let itemAddedBy = {};
+
+async function loadProducts() {
+  try {
+    const res = await fetch(`${API_URL}/products`);
+    const data = await res.json();
+    if (data.success && data.data.length > 0) {
+      allProducts = data.data;
+    } else {
+      allProducts = mockProducts;
+    }
+  } catch (err) {
+    console.log("Backend offline, using mock data.");
+    allProducts = mockProducts;
+  }
+  refreshAll();
+}
+
+// Polling for group cart updates
+setInterval(async () => {
+  if (activeBasketCode) {
+    try {
+      const res = await fetch(`${API_URL}/baskets/${activeBasketCode}`);
+      const data = await res.json();
+      if (data.success) {
+        syncCartFromDB(data.data);
+      }
+    } catch (e) {}
+  }
+}, 3000);
+
+function syncCartFromDB(basketData) {
+  members = basketData.members;
+  cart = {};
+  itemAddedBy = {};
+  basketData.items.forEach(item => {
+    cart[item.product._id] = item.quantity;
+    itemAddedBy[item.product._id] = item.addedBy;
+  });
+  refreshAll();
+  updateGroupBasketUI();
+}
+
+// ── INIT & RENDER ──
+
 function getFiltered() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   return allProducts.filter(p => {
-    const matchCat = currentCat === 'all' || p.cat === currentCat;
+    const matchCat = currentCat === 'all' || p.category === currentCat || p.cat === currentCat;
     const matchSearch = !q || p.name.toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 }
 
-function renderGrid(products, containerId, cols=3) {
+function renderGrid(products, containerId) {
   const el = document.getElementById(containerId);
   el.innerHTML = '';
   products.forEach(p => { el.appendChild(makeCard(p)); });
 }
 
 function makeCard(p) {
-  const qty = cart[p.id] || 0;
+  const id = p._id;
+  const qty = cart[id] || 0;
+  
+  const srcUrl = p.productUrl || p.url || '#';
+  const discount = p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : p.discount;
+
   const div = document.createElement('div');
   div.className = 'prod-card';
+  div.onclick = () => openProduct(id);
+
   div.innerHTML = `
     <div class="prod-img-wrap">
-      <span class="prod-img">${p.emoji}</span>
-      ${p.discount ? `<span class="prod-discount">${p.discount}% OFF</span>` : ''}
-      ${p.nexus ? `<span class="nexus-badge">NEXUS</span>` : ''}
+      <img src="${p.image}" class="prod-img" alt="${p.name}">
+      ${discount ? `<span class="prod-discount">${discount}% OFF</span>` : ''}
+      <a href="${srcUrl}" target="_blank" class="gc-open-btn" onclick="event.stopPropagation()">↗ Open ${p.source}</a>
     </div>
     <div class="prod-info">
-      <div style="font-size:9px; font-weight:800; color:var(--light); text-transform:uppercase; margin-bottom:2px;">via ${p.src || 'Nexus'}</div>
-      <div class="prod-weight">${p.weight}</div>
+      <div class="prod-src">via ${p.source}</div>
       <div class="prod-name">${p.name}</div>
+      <div class="prod-weight">${p.quantity}</div>
       <div class="prod-price-row">
-        <span class="prod-price">₹${p.price}</span>
-        <span class="prod-mrp">₹${p.mrp}</span>
+        <div class="ppr-left">
+          <span class="prod-price">₹${p.price}</span>
+          ${p.mrp > p.price ? `<span class="prod-mrp">₹${p.mrp}</span>` : ''}
+        </div>
+        ${qty === 0
+          ? `<button class="add-btn" onclick="addItem('${id}',event)">ADD</button>`
+          : `<div class="qty-ctrl">
+              <button onclick="removeItem('${id}',event)">−</button>
+              <span class="qty-num">${qty}</span>
+              <button onclick="addItem('${id}',event)">+</button>
+            </div>`
+        }
       </div>
-      ${qty === 0
-        ? `<button class="add-btn" onclick="addItem(${p.id},event)">+ Add</button>`
-        : `<div class="qty-ctrl">
-            <button onclick="removeItem(${p.id},event)">−</button>
-            <span class="qty-num">${qty}</span>
-            <button onclick="addItem(${p.id},event)">+</button>
-          </div>`
-      }
     </div>
   `;
   return div;
 }
 
-function addItem(id, e) {
-  e && e.stopPropagation();
+// ── CART LOGIC ──
+async function addItem(id, e) {
+  if (e) e.stopPropagation();
   cart[id] = (cart[id] || 0) + 1;
+  itemAddedBy[id] = activeBasketCode ? myName : 'You';
   refreshAll();
   showToast(`Added to cart 🛒`);
+
+  if (activeBasketCode) {
+    try {
+      await fetch(`${API_URL}/baskets/${activeBasketCode}/items`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: id, addedBy: myName })
+      });
+    } catch (e) {}
+  }
 }
-function removeItem(id, e) {
-  e && e.stopPropagation();
+
+async function removeItem(id, e) {
+  if (e) e.stopPropagation();
   if (cart[id] > 0) cart[id]--;
-  if (cart[id] === 0) delete cart[id];
+  if (cart[id] === 0) { delete cart[id]; delete itemAddedBy[id]; }
   refreshAll();
+
+  if (activeBasketCode) {
+    try {
+      // Find the specific basket item ID for this product
+      const res = await fetch(`${API_URL}/baskets/${activeBasketCode}`);
+      const data = await res.json();
+      const basketItem = data.data.items.find(i => i.product._id === id);
+      if (basketItem) {
+        await fetch(`${API_URL}/baskets/${activeBasketCode}/items/${basketItem._id}`, {
+          method: 'DELETE'
+        });
+      }
+    } catch (e) {}
+  }
 }
 
 function refreshAll() {
   renderGrid(getFiltered(), 'mainGrid');
-  renderGrid(aiProducts, 'aiGrid');
-  renderGrid(popularProducts, 'popularGrid');
   updateCartBar();
   updateCartModal();
+  
+  if(window.currentOpenProductId) {
+    populateProductModal(window.currentOpenProductId);
+  }
 }
 
 function updateCartBar() {
   const ids = Object.keys(cart);
   const totalQty = ids.reduce((s,id)=>s+cart[id],0);
   const totalAmt = ids.reduce((s,id)=>{
-    const p = allProducts.find(x=>x.id==id);
+    const p = allProducts.find(x=>x._id===id);
     return s + (p ? p.price * cart[id] : 0);
   },0);
-  document.getElementById('cartBadge').textContent = totalQty;
+  
   document.getElementById('cbCount').textContent = totalQty;
   document.getElementById('cbItems').textContent = `${totalQty} item${totalQty!==1?'s':''}`;
   document.getElementById('cbTotal').textContent = `₹${totalAmt}`;
-  document.getElementById('cbSaving').textContent = totalAmt > 0 ? `Delivery: ₹0 🎉 (Nexus)` : `Add items to save!`;
+  
   const bar = document.getElementById('cartBar');
   if (totalQty > 0) bar.classList.remove('hidden');
   else bar.classList.add('hidden');
@@ -127,64 +186,355 @@ function updateCartModal() {
   const ids = Object.keys(cart);
   const list = document.getElementById('cartItemsList');
   list.innerHTML = '';
-  let subtotal = 0, savings = 0;
+  let subtotal = 0;
+  
   ids.forEach(id => {
-    const p = allProducts.find(x=>x.id==id);
+    const p = allProducts.find(x=>x._id===id);
     if (!p) return;
     const linePrice = p.price * cart[id];
-    const lineMrp = p.mrp * cart[id];
     subtotal += linePrice;
-    savings += (lineMrp - linePrice);
-    const item = document.createElement('div');
-    item.className = 'cart-item';
-    item.innerHTML = `
-      <div class="ci-emoji">${p.emoji}</div>
-      <div class="ci-info">
-        <div class="ci-name">${p.name}</div>
-        <div class="ci-weight">${p.weight}</div>
+    
+    const addedByTxt = activeBasketCode ? `<div style="font-size:10px; color:var(--green); font-weight:bold;">by ${itemAddedBy[id] || 'Unknown'}</div>` : '';
+    
+    list.innerHTML += `
+      <div class="cart-item">
+        <img src="${p.image}" class="ci-img">
+        <div class="ci-info">
+          <div class="ci-name">${p.name}</div>
+          <div style="font-size:11px; color:var(--light);">${p.quantity}</div>
+          ${addedByTxt}
+        </div>
+        <div class="ci-qty">
+          <button onclick="removeItem('${p._id}')">−</button>
+          <span class="cq-num">${cart[id]}</span>
+          <button onclick="addItem('${p._id}')">+</button>
+        </div>
+        <div class="ci-price">₹${linePrice}</div>
       </div>
-      <div class="ci-qty">
-        <button onclick="removeItem(${p.id})">−</button>
-        <span class="cq-num">${cart[id]}</span>
-        <button onclick="addItem(${p.id})">+</button>
-      </div>
-      <div class="ci-price">₹${linePrice}</div>
     `;
-    list.appendChild(item);
   });
-  const delivery = 0;
-  const total = subtotal + delivery;
+  
   const summary = document.getElementById('cartSummary');
+  const deliveryFee = activeBasketCode && members.length > 0 ? Math.round(25 / members.length) : 25;
+  const savings = 25 - deliveryFee;
+  const savingsHtml = savings > 0 ? `<div class="cs-row" style="color:var(--green); font-size:12px;"><span>Group Savings</span><span>-₹${savings}</span></div>` : '';
+
   summary.innerHTML = `
-    <div class="cs-row"><span>Subtotal</span><span>₹${subtotal}</span></div>
-    <div class="cs-row"><span>Product savings</span><span class="saving">−₹${savings}</span></div>
-    <div class="cs-row"><span>Delivery (Nexus group)</span><span class="saving">₹0 🎉</span></div>
-    <div class="cs-row total"><span>Total</span><span>₹${total}</span></div>
+    <div class="cs-row"><span>Item Total</span><span>₹${subtotal}</span></div>
+    <div class="cs-row"><span>Delivery Fee (Your Split)</span><span>₹${deliveryFee}</span></div>
+    ${savingsHtml}
+    <div class="cs-row total"><span>Grand Total</span><span>₹${subtotal + deliveryFee}</span></div>
   `;
+  
   if (ids.length === 0) {
-    list.innerHTML = `<div style="text-align:center;padding:32px 0;color:var(--light);font-size:14px;">🛒<br><br>Your cart is empty.<br>Add some items!</div>`;
+    list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--light);">Cart is empty</div>`;
     summary.innerHTML = '';
   }
 }
 
-function openCart() {
-  document.getElementById('cartModal').classList.add('open');
-  updateCartModal();
+// ── GROUP BASKET MODAL FUNCTIONS ──
+function openGroupBasket() {
+  closeAllModals();
+  updateGroupBasketUI();
+  document.getElementById('groupBasketModal').classList.add('open');
 }
-function closeCartOutside(e) {
-  if (e.target === document.getElementById('cartModal')) {
-    document.getElementById('cartModal').classList.remove('open');
+
+function updateGroupBasketUI() {
+  const btn = document.getElementById('groupBasketBtn');
+  if (activeBasketCode) {
+    btn.innerHTML = `<span style="font-size:14px;">👥</span> ${members.length} joined`;
+    btn.style.background = '#dcfce7';
+    document.getElementById('gbCreateJoinSection').style.display = 'none';
+    document.getElementById('gbActiveSection').style.display = 'block';
+    document.getElementById('gbActiveCode').textContent = activeBasketCode;
+    
+    document.getElementById('gbMembersList').innerHTML = members.map(m => 
+      `<span style="background:var(--bg); padding:4px 8px; border-radius:12px; font-size:11px; font-weight:bold; color:var(--dark); border:1px solid var(--border);">${m.name}</span>`
+    ).join('');
+  } else {
+    btn.innerHTML = `<span style="font-size:14px;">👥</span> Group Cart`;
+    btn.style.background = '#e8f5ea';
+    document.getElementById('gbCreateJoinSection').style.display = 'block';
+    document.getElementById('gbActiveSection').style.display = 'none';
   }
 }
 
+async function handleCreateBasket() {
+  const name = document.getElementById('gbNameInput').value.trim();
+  if (!name) return showToast('Please enter your name');
+  myName = name;
+  
+  try {
+    const res = await fetch(`${API_URL}/baskets`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hostName: myName })
+    });
+    const data = await res.json();
+    if (data.success) {
+      activeBasketCode = data.data.shareCode;
+      syncCartFromDB(data.data);
+      showToast('Basket created!');
+    }
+  } catch (err) {
+    showToast('Failed to connect to backend. Starting local basket.');
+    activeBasketCode = Math.random().toString(36).slice(2, 8).toUpperCase();
+    members = [{ name: myName }];
+    updateGroupBasketUI();
+  }
+}
+
+async function handleJoinBasket() {
+  const name = document.getElementById('gbNameInput').value.trim();
+  const code = document.getElementById('gbCodeInput').value.trim().toUpperCase();
+  if (!name || !code) return showToast('Enter name and code');
+  myName = name;
+  
+  try {
+    const res = await fetch(`${API_URL}/baskets/${code}/join`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: myName })
+    });
+    const data = await res.json();
+    if (data.success) {
+      activeBasketCode = code;
+      syncCartFromDB(data.data);
+      showToast('Joined basket!');
+    } else {
+      showToast('Invalid Code');
+    }
+  } catch (err) {
+    showToast('Failed to connect to backend');
+  }
+}
+
+function leaveBasket() {
+  cart = {}; activeBasketCode = null; members = []; itemAddedBy = {};
+  refreshAll(); updateGroupBasketUI(); showToast('Left the basket');
+}
+
+// ── MODALS ──
+
+function openCart() {
+  document.getElementById('cartModal').classList.add('open');
+}
+
+function openLocation() {
+  document.getElementById('locationModal').classList.add('open');
+}
+
+function selectLocation(title, full) {
+  document.getElementById('locNameDisplay').textContent = title;
+  document.getElementById('locFullDisplay').textContent = full;
+  closeAllModals();
+  showToast(`Location updated to ${title}`);
+}
+
+function useGPS() {
+  showToast('Locating...');
+  setTimeout(() => {
+    selectLocation('Current Location', 'GPS Detected Address');
+  }, 1000);
+}
+
+// ── BLINKIT-STYLE PRODUCT DETAIL MODAL ──
+
+function openProduct(id) {
+  window.currentOpenProductId = id;
+  populateProductModal(id);
+  document.getElementById('productModal').classList.add('open');
+}
+
+function populateProductModal(id) {
+  const p = allProducts.find(x=>x._id===id);
+  if (!p) return;
+  const qty = cart[id] || 0;
+  
+  const html = `
+    <div class="pd-close" onclick="closeAllModals()">✕</div>
+    <div class="pd-image-wrap">
+      <img src="${p.image}" class="pd-image">
+    </div>
+    <div class="pd-info">
+      <div class="pd-src-tag">SOURCED VIA ${p.source ? p.source.toUpperCase() : 'UNKNOWN'}</div>
+      <div class="pd-name">${p.name}</div>
+      <div class="pd-weight">${p.quantity}</div>
+      
+      <div class="pd-price-wrap">
+        <div>
+          <span class="pd-price">₹${p.price}</span>
+          ${p.mrp > p.price ? `<span class="pd-mrp" style="margin-left:6px;">₹${p.mrp}</span>` : ''}
+        </div>
+        ${qty === 0
+          ? `<button class="add-btn" style="width:100px;" onclick="addItem('${p._id}',event)">ADD</button>`
+          : `<div class="qty-ctrl" style="width:100px; justify-content:space-between;">
+              <button onclick="removeItem('${p._id}',event)">−</button>
+              <span class="qty-num">${qty}</span>
+              <button onclick="addItem('${p._id}',event)">+</button>
+            </div>`
+        }
+      </div>
+
+      <div class="pd-desc-title">Product Description</div>
+      <div class="pd-desc">${p.desc || 'Best quality product sourced directly.'}</div>
+    </div>
+  `;
+  document.getElementById('productDetailContent').innerHTML = html;
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+  window.currentOpenProductId = null;
+}
+
+function closeModalOutside(e, id) {
+  if (e.target.id === id) closeAllModals();
+}
+
+// ── AUTH & PROFILE ──
+
+function openAuth() {
+  const user = localStorage.getItem('nexusUser');
+  if (user) {
+    openProfile();
+  } else {
+    closeAllModals();
+    document.getElementById('authModal').classList.add('open');
+  }
+}
+
+function handleLogin() {
+  const phone = document.getElementById('phoneInput').value;
+  if(phone.length !== 10) {
+    showToast('Enter a valid 10-digit number');
+    return;
+  }
+  
+  localStorage.setItem('nexusUser', phone);
+  // Default name for demo
+  localStorage.setItem('nexusName', 'Vedant');
+  
+  updateProfileState();
+  closeAllModals();
+  showToast('Logged in successfully!');
+}
+
+function handleLogout() {
+  localStorage.removeItem('nexusUser');
+  localStorage.removeItem('nexusName');
+  updateProfileState();
+  closeAllModals();
+  showToast('Logged out');
+}
+
+function updateProfileState() {
+  const user = localStorage.getItem('nexusUser');
+  if(user) {
+    document.getElementById('userAvatar').style.background = 'var(--green)';
+    document.getElementById('userAvatar').style.color = '#fff';
+    document.getElementById('userAvatar').style.borderRadius = '50%';
+    document.getElementById('userAvatar').textContent = localStorage.getItem('nexusName')?.[0] || 'U';
+  } else {
+    document.getElementById('userAvatar').style.background = 'none';
+    document.getElementById('userAvatar').style.color = 'var(--dark)';
+    document.getElementById('userAvatar').textContent = '👤';
+  }
+}
+
+async function openProfile() {
+  closeAllModals();
+  document.getElementById('profileInitials').textContent = localStorage.getItem('nexusName')?.[0] || 'U';
+  document.getElementById('profileNameDisplay').textContent = localStorage.getItem('nexusName') || 'User';
+  document.getElementById('profilePhoneDisplay').textContent = '+91 ' + localStorage.getItem('nexusUser');
+  
+  document.getElementById('profileModal').classList.add('open');
+  
+  // Load Orders
+  try {
+    const res = await fetch(`${API_URL}/orders?user=${localStorage.getItem('nexusUser')}`);
+    const data = await res.json();
+    const list = document.getElementById('ordersList');
+    if (data.success && data.data.length > 0) {
+      list.innerHTML = data.data.map(o => `
+        <div style="border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span style="font-weight:bold; font-size:13px;">Order ${o._id}</span>
+            <span style="color:var(--green); font-size:12px; font-weight:bold;">${o.status}</span>
+          </div>
+          <div style="font-size:11px; color:var(--light); margin-bottom:5px;">
+            ${new Date(o.createdAt).toLocaleDateString()} • ₹${o.total}
+          </div>
+        </div>
+      `).join('');
+    } else {
+      list.innerHTML = `<p style="font-size:12px; color:var(--light); text-align:center;">No recent orders</p>`;
+    }
+  } catch (e) {}
+}
+
+// ── CHECKOUT & ORDERS ──
+
+let currentCheckoutTotal = 0;
+
 function placeOrder() {
   const ids = Object.keys(cart);
-  if (ids.length === 0) { showToast('Add items first!'); return; }
-  document.getElementById('cartModal').classList.remove('open');
-  cart = {};
-  refreshAll();
-  showToast('🎉 Order placed! Delivering in 10 min via Nexus group batch');
+  if (ids.length === 0) return;
+  
+  if (!localStorage.getItem('nexusUser')) {
+    showToast('Please login to continue');
+    openAuth();
+    return;
+  }
+
+  const subtotal = ids.reduce((s,id)=>{
+    const p = allProducts.find(x=>x._id===id);
+    return s + (p ? p.price * cart[id] : 0);
+  }, 0);
+  const deliveryFee = activeBasketCode && members.length > 0 ? Math.round(25 / members.length) : 25;
+  currentCheckoutTotal = subtotal + deliveryFee;
+
+  document.getElementById('checkoutTotalDisplay').textContent = `₹${currentCheckoutTotal}`;
+  document.getElementById('checkoutAddress').value = document.getElementById('locFullDisplay').textContent;
+  
+  closeAllModals();
+  document.getElementById('checkoutModal').classList.add('open');
 }
+
+async function processPayment() {
+  const address = document.getElementById('checkoutAddress').value;
+  const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
+  
+  if (!address || address === 'Select your address') {
+    return showToast('Please enter a valid delivery address');
+  }
+
+  showToast('Processing Payment...');
+  
+  try {
+    await fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user: localStorage.getItem('nexusUser'),
+        items: cart,
+        total: currentCheckoutTotal,
+        address,
+        paymentMethod: payMethod
+      })
+    });
+  } catch (e) {}
+
+  setTimeout(() => {
+    cart = {};
+    if (activeBasketCode) leaveBasket(); // Clear group basket if active
+    refreshAll();
+    closeAllModals();
+    showToast('🎉 Order Placed Successfully! Arriving in 10 mins.');
+  }, 1000);
+}
+
+// ── NAVIGATION & FILTERS ──
 
 function filterCat(cat, el) {
   currentCat = cat;
@@ -194,7 +544,7 @@ function filterCat(cat, el) {
 }
 
 function handleSearch(val) {
-  renderGrid(getFiltered(), 'mainGrid');
+  refreshAll();
 }
 
 function showToast(msg) {
@@ -202,121 +552,91 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
+// ── LOCATION LOGIC ──
 function openLocation() {
+  closeAllModals();
   document.getElementById('locationModal').classList.add('open');
 }
-function closeLocationOutside(e) {
-  if (e.target === document.getElementById('locationModal')) {
-    document.getElementById('locationModal').classList.remove('open');
-  }
-}
-function selectLocation(name, full, families) {
-  document.getElementById('locNameDisplay').textContent = name;
-  document.getElementById('locFullDisplay').textContent = full;
-  document.getElementById('sbTitleDisplay').textContent = `${name} · ${families} families ordering`;
-  document.getElementById('smSubtitleDisplay').textContent = `${name} • ${families} families ordering`;
-  document.getElementById('nsbSub').textContent = `${families} neighbors in your batch — delivery is ₹0`;
-  
-  const locCards = document.getElementById('locationModal').querySelectorAll('.cart-sheet > div:last-child > div');
-  locCards.forEach(card => {
-    if (card.innerText.includes(name)) {
-      card.style.border = '1px solid var(--orange)';
-      card.style.background = 'var(--orange-bg)';
-      if (!card.querySelector('span')) {
-        card.children[0].innerHTML += ` <span style="font-size:10px; background:var(--orange); color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px;">Current</span>`;
-      }
-    } else {
-      card.style.border = '1px solid var(--border)';
-      card.style.background = 'none';
-      const badge = card.querySelector('span');
-      if (badge) badge.remove();
-    }
-  });
-  
-  document.getElementById('locationModal').classList.remove('open');
-  showToast(`Location updated to ${name}`);
-}
 
-function openSociety() {
-  document.getElementById('societyModal').classList.add('open');
+function selectLocation(title, fullAddress) {
+  document.getElementById('locNameDisplay').textContent = title;
+  document.getElementById('locFullDisplay').textContent = fullAddress;
+  closeAllModals();
+  showToast(`Location set to ${title}`);
 }
-function closeSocietyOutside(e) {
-  if (e.target === document.getElementById('societyModal')) {
-    document.getElementById('societyModal').classList.remove('open');
-  }
-}
-
-function addCombo() {
-  addItem(1);
-  addItem(3);
-  addItem(16);
-  showToast('Combo added to cart! 🥛🥚🍞');
-}
-
-document.querySelectorAll('.bn-item').forEach(item => {
-  if(!item.hasAttribute('onclick')) {
-    item.addEventListener('click', function() {
-      document.querySelectorAll('.bn-item').forEach(i => {
-        i.classList.remove('active');
-        const lbl = i.querySelector('.bn-label');
-        if (lbl) lbl.style.color = 'var(--light)';
-      });
-      this.classList.add('active');
-      const label = this.querySelector('.bn-label');
-      if (label) label.style.color = 'var(--orange)';
-      
-      const text = label ? label.innerText : '';
-      if (text === 'Home') window.scrollTo({top:0, behavior:'smooth'});
-      else showToast(text + ' view coming soon!');
-    });
-  }
-});
-
-let autocomplete;
-function initMap() {
-  const input = document.getElementById('gmapSearch');
-  if (window.google) {
-    autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace();
-      if (place.geometry) {
-        const name = place.name || 'Custom Location';
-        const full = place.formatted_address || place.name;
-        selectLocation(name, full, Math.floor(Math.random()*20)+5);
-        document.getElementById('gmapSearch').value = '';
-      }
-    });
-  }
-}
-
-// Fallback if Google Maps fails to load or API key is missing
-document.getElementById('gmapSearch').addEventListener('keypress', function(e) {
-  if(e.key === 'Enter' && this.value.trim() !== '') {
-    selectLocation(this.value.trim(), this.value.trim() + ' (Map API Key Required)', Math.floor(Math.random()*20)+5);
-    this.value = '';
-  }
-});
 
 function useGPS() {
-  if (navigator.geolocation) {
-    showToast('Locating your GPS position...');
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude.toFixed(4);
-        const lng = pos.coords.longitude.toFixed(4);
-        selectLocation('GPS Location', `Lat: ${lat}, Lng: ${lng}`, Math.floor(Math.random()*15)+5);
-      },
-      (err) => {
-        showToast('Please enable GPS access in browser');
-      }
-    );
-  } else {
-    showToast('GPS not supported on this device');
-  }
+  showToast('Detecting location...');
+  setTimeout(() => {
+    selectLocation('Current Location', 'GPS Coordinates 19.07, 72.87');
+  }, 1000);
 }
 
-// INIT
-refreshAll();
+// Initialize Map (Real API Autocomplete - No Key Required)
+function initMap() {
+  const input = document.getElementById('gmapSearch');
+  if (!input) return;
+
+  let resultsDiv = document.createElement('div');
+  resultsDiv.id = 'mockLocResults';
+  resultsDiv.style.cssText = 'background:#fff; border:1px solid var(--border); border-radius:12px; margin-top:10px; overflow:hidden; display:none; max-height:250px; overflow-y:auto;';
+  input.parentNode.parentNode.insertBefore(resultsDiv, input.parentNode.nextSibling);
+
+  let timeout = null;
+
+  input.addEventListener('input', (e) => {
+    const val = e.target.value.trim();
+    if (!val) {
+      resultsDiv.style.display = 'none';
+      return;
+    }
+    
+    // Show loading state
+    resultsDiv.style.display = 'block';
+    resultsDiv.innerHTML = `<div style="padding:12px 16px; font-size:13px; color:var(--light);">Searching across India...</div>`;
+
+    clearTimeout(timeout);
+    timeout = setTimeout(async () => {
+      try {
+        // Use free OpenStreetMap Nominatim API restricted to India
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(val)}&countrycodes=in&limit=5`);
+        const data = await res.json();
+        
+        if (data && data.length > 0) {
+          resultsDiv.innerHTML = data.map(m => {
+            const parts = m.display_name.split(',');
+            const title = parts[0];
+            const full = parts.slice(1).join(',').trim() || m.display_name;
+            return `
+            <div style="padding:12px 16px; border-bottom:1px solid var(--border); cursor:pointer;" onclick="selectLocation('${title.replace(/'/g, "\\'")}', '${full.replace(/'/g, "\\'")}'); document.getElementById('gmapSearch').value=''; document.getElementById('mockLocResults').style.display='none';">
+              <div style="font-weight:bold; font-size:14px; color:var(--dark);">${title}</div>
+              <div style="font-size:12px; color:var(--light); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${full}</div>
+            </div>
+          `}).join('');
+        } else {
+          resultsDiv.innerHTML = `
+            <div style="padding:12px 16px; cursor:pointer;" onclick="selectLocation('${val.replace(/'/g, "\\'")}', '${val.replace(/'/g, "\\'")}, India'); document.getElementById('gmapSearch').value=''; document.getElementById('mockLocResults').style.display='none';">
+              <div style="font-weight:bold; font-size:14px; color:var(--green);">Search "${val}"</div>
+              <div style="font-size:12px; color:var(--light); margin-top:2px;">Tap to use this as custom address</div>
+            </div>
+          `;
+        }
+      } catch (err) {
+        // Fallback on error
+        resultsDiv.innerHTML = `
+          <div style="padding:12px 16px; cursor:pointer;" onclick="selectLocation('${val.replace(/'/g, "\\'")}', '${val.replace(/'/g, "\\'")}, India'); document.getElementById('gmapSearch').value=''; document.getElementById('mockLocResults').style.display='none';">
+            <div style="font-weight:bold; font-size:14px; color:var(--green);">Use "${val}"</div>
+          </div>
+        `;
+      }
+    }, 500); // 500ms debounce to avoid API spam
+  });
+}
+
+// ── BOOTSTRAP ──
+updateProfileState();
+loadProducts();
+initMap();
